@@ -1,0 +1,46 @@
+/*
+백준_10807_개수세기.java
+난이도: 브론즈5 (조금 어렵)
+
+풀이 아이디어
+1. N개의 정수를 입력받아 저장하고, 비교를 해야 하므로 각각을 구분할 수 있어야 함 → 배열 활용.
+2. 여러 숫자를 입력받아 배열에 저장해야 하므로 for문 사용.
+3. i → 반복변수이자 인덱스. 배열은 0부터 시작하므로 int i = 0; 으로 초기화.
+4. if문으로 v와 일치하는지 확인. 일치하면 count +1 → 일치하는 경우를 세기.
+
+헤맨 부분
+- 입력 순서를 잘못 배치함.  
+  문제 지문을 읽으면서 변수를 선언하다 보니  
+  실제 입력이 들어오는 순서대로 배치하지 않음.
+*/
+
+import java.util.*;
+
+public class Main_10807 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); // 입력
+
+        // 입력
+        int N = sc.nextInt(); // 입력된 정수의 개수 : N
+        int[] V = new int[N]; // 정수를 저장할 배열
+
+        for (int i = 0; i < N; i++) {
+            int x = sc.nextInt();
+            V[i] = x;
+        }
+
+        int v = sc.nextInt(); // 찾는 정수
+
+        int count = 0; // 배열에 있는 v의 개수를 기록
+
+        for (int j = 0; j < N; j++) { // v 개수 확인
+            if (V[j] == v) {
+                count = count + 1;
+            }
+        }
+
+        System.out.println(count);
+
+        sc.close();
+    }
+}
