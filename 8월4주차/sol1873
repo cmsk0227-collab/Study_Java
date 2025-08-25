@@ -1,207 +1,248 @@
+package com.main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
-    static char[][] graph;
-    static int direction, h, w, x, y;
+/*
+ * 모르거나 틀린 부분
+ * 1. 경계검사 => 필요는 인식했으나 코드로 풀어내는 방식을 몰랐음.
+ * 2. return을 사용하면 메서드 종료.
+ * 3. dx, dy를 dx, dx라 작성. 비슷한 글자라 그런듯.
+ */
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+public class Solution_1873_필드배틀 {
+	static char[][] map;// 게임맵
+	static int H;// 높이
+	static int W;// 너비
+	static int dx;// 전차 x 좌표
+	static int dy;// 전차 x 좌표
+	static char dir; // 전차가 바라보는 방향
 
-        // 테스트 케이스의 수 입력
-        int testCase = Integer.parseInt(br.readLine());
+	static boolean in(int r, int c) {// 경계 검사용으로 조건문 조건식 활용, 참 거짓 여부만 필요 => boolean
+		// r : 행 , c : 열
+		return 0 <= r && r < H && 0 <= c && c < W;
+	}
 
-        for (int t = 1; t <= testCase; t++) {
-            // 게임 맵의 크기 입력
-            String input = br.readLine();
-            StringTokenizer st = new StringTokenizer(input);
-            h = Integer.parseInt(st.nextToken());
-            w = Integer.parseInt(st.nextToken());
+	public static void main(String[] args) throws IOException {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-            // 게임 맵 초기화
-            graph = new char[h][w];
-            
-            // 게임 맵 상태 입력 및 전차의 시작 위치 찾기
-            for (int r = 0; r < h; r++) {
-                input = br.readLine();
-                for (int c = 0; c < w; c++) {
-                    graph[r][c] = input.charAt(c);
-                    findStart(r, c);
-                }
-            }
+		StringTokenizer st = new StringTokenizer(bf.readLine());
+		int T = Integer.parseInt(st.nextToken());
 
-            // 사용자 입력의 개수 입력
-            int n = Integer.parseInt(br.readLine());
-            
-            // 사용자 입력에 따른 동작 수행
-            input = br.readLine();
-            for (int i = 0; i < n; i++) {
-                runCommand(input.charAt(i));
-            }
+		// 입력
+		for (int t = 1; t <= T; t++) {
+			st = new StringTokenizer(bf.readLine());
+			H = Integer.parseInt(st.nextToken());// 높이 - 행
+			W = Integer.parseInt(st.nextToken());// 너비 - 열
 
-            // 결과 출력
-            sb.append("#" + t + " ");
-            for (int i = 0; i < h; i++) {
-                for (int j = 0; j < w; j++) {
-                    sb.append(graph[i][j]);
-                }
-                sb.append("\n");
-            }
-        }
-        System.out.print(sb);
-    }
+			// 초기 맵 구현
+			map = new char[H][W];
+			for (int i = 0; i < H; i++) {
+				st = new StringTokenizer(bf.readLine());
+				char[] mod = st.nextToken().toCharArray();
+				for (int j = 0; j < W; j++) {
+					map[i][j] = mod[j];
+				}
+			}
+			// 전차찾기
+			found();
 
-    // 전차의 시작 위치 찾기
-    public static void findStart(int r, int c) {
-        if (graph[r][c] == '^' || graph[r][c] == 'v' || graph[r][c] == '<' || graph[r][c] == '>') {
-            x = r;
-            y = c;
-            switch (graph[r][c]) {
-                case '^':
-                    direction = 1;
-                    break;
-                case 'v':
-                    direction = 2;
-                    break;
-                case '<':
-                    direction = 3;
-                    break;
-                case '>':
-                    direction = 4;
-                    break;
-            }
-        }
-    }
+			/*
+			 * 명령어 1. 포구 방향 지정 2 (1) 이동 1. 평지면 이동. 있던 자리는 (.) 변환, 가는 자리는 (.) => 전차 2. 평지가
+			 * 아니면 제자리 (2) shoot 1. 처음 만나는 * 은 평지(.)로 변환 2. 나머지는 그대로
+			 */
+			st = new StringTokenizer(bf.readLine());
+			int cNum = Integer.parseInt(st.nextToken());
 
-    // 사용자 입력에 따른 동작 수행
-    public static void runCommand(char command) {
-        switch (command) {
-            case 'U':
-                direction = 1;
-                move();
-                break;
-            case 'D':
-                direction = 2;
-                move();
-                break;
-            case 'L':
-                direction = 3;
-                move();
-                break;
-            case 'R':
-                direction = 4;
-                move();
-                break;
-            case 'S':
-                shoot();
-                break;
-        }
-    }
+			st = new StringTokenizer(bf.readLine());
+			String str = st.nextToken();
+			for (int i = 0; i < cNum; i++) {
+				char c = str.charAt(i);
+				command(c);
+			}
 
-    // 전차 이동
-    public static void move() {
-        int newX = x;
-        int newY = y;
-        char status = 0;
+			// 맵 출력
+			System.out.print("#"+t+" ");
+			for(int i =0; i < H ; i++) {
+				for(int j=0; j < W ; j++) {
+					System.out.print(map[i][j]);
+				}
+				System.out.println();
+			}
 
-        switch (direction) {
-            case 1:
-                newX--;
-                status = '^';
-                break;
-            case 2:
-                newX++;
-                status = 'v';
-                break;
-            case 3:
-                newY--;
-                status = '<';
-                break;
-            case 4:
-                newY++;
-                status = '>';
-                break;
-        }
+		}
+	}
 
-        // 이동 가능한지 확인 후 이동
-        if (0 <= newX && newX < h && 0 <= newY && newY < w && graph[newX][newY] == '.') {
-            graph[x][y] = '.';
-            x = newX;
-            y = newY;
-        }
-        graph[x][y] = status;
-    }
+	public static void found() {// 전차 탐섹
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				switch (map[i][j]) {// 전차 위치 찾기.
+				case '^':
+					dx = i; // 전차의 x 좌표
+					dy = j; // 전차의 y 좌표
+					dir = map[i][j]; // 방향 저장
+					return;
 
-    // 포탄 발사
-    public static void shoot() {
-        switch (direction) {
-            case 1:
-                for (int i = x - 1; i > -1; i--) {
-                    if (graph[i][y] == '*') {
-                        graph[i][y] = '.';
-                        break;
-                    }
-                    if (graph[i][y] == '#') {
-                        break;
-                    }
-                }
-                break;
-            case 2:
-                for (int i = x + 1; i < h; i++) {
-                    if (graph[i][y] == '*') {
-                        graph[i][y] = '.';
-                        break;
-                    }
-                    if (graph[i][y] == '#') {
-                        break;
-                    }
-                }
-                break;
-            case 3:
-                for (int i = y - 1; i > -1; i--) {
-                    if (graph[x][i] == '*') {
-                        graph[x][i] = '.';
-                        break;
-                    }
-                    if (graph[x][i] == '#') {
-                        break;
-                    }
-                }
-                break;
-            case 4:
-                for (int i = y + 1; i < w; i++) {
-                    if (graph[x][i] == '*') {
-                        graph[x][i] = '.';
-                        break;
-                    }
-                    if (graph[x][i] == '#') {
-                        break;
-                    }
-                }
-                break;
-        }
+				case 'v':
+					dx = i; // 전차의 x 좌표
+					dy = j; // 전차의 y 좌표
+					dir = map[i][j];
+					return;
+
+
+				case '>':
+					dx = i; // 전차의 x 좌표
+					dy = j; // 전차의 y 좌표
+					dir = map[i][j];
+					return;
+
+
+				case '<':
+					dx = i; // 전차의 x 좌표
+					dy = j; // 전차의 y 좌표
+					dir = map[i][j];
+					return;
+
+
+				default:
+					// 해당 칸에 전차가 없을 떄
+					break;
+
+				}
+			}
+
+		}
+	}
+
+	public static void command(char c) {//방향 설정 후 이동.
+		switch(c) {
+		case 'U':
+			dir = '^';
+			if(in(dx-1, dy)&&map[dx-1][dy] == '.') {
+				map[dx][dy] = '.';
+				map[dx-1][dy] = '^';
+				dx--;
+			}
+			map[dx][dy] = dir; //이동이 안되더라도 방향은 반영.
+			break;
+			
+		case 'D':
+			dir = 'v';
+			if(in(dx+1, dy)&&map[dx+1][dy] == '.') {
+				map[dx][dy] = '.';
+				map[dx+1][dy] = 'v';
+				dx ++;
+				}
+			map[dx][dy] = dir; //이동이 안되더라도 방향은 반영.
+			break;
+			
+		case 'R':
+			dir = '>';
+			if(in(dx, dy+1)&&map[dx][dy+1] == '.') {
+				map[dx][dy] = '.';
+				map[dx][dy+1] = '>';
+				dy ++;
+				}
+			map[dx][dy] = dir; //이동이 안되더라도 방향은 반영.
+			break;
+		case 'L':
+			dir = '<';
+			if(in(dx, dy-1) && map[dx][dy-1] == '.'){
+				map[dx][dy] = '.';
+				map[dx][dy-1] = '<';
+				dy --;
+				}
+			map[dx][dy] = dir; //이동이 안되더라도 방향은 반영.
+			break;
+		case 'S':
+			shoot();
+			return; // 사격은 좌표 변화가 없으니 바로 종료. break 하면 Shoot 명렁 후에 맵에서 탱크가 사라짐.
+		}
+
+	}
+	/*
+	 * 전차 찾기 코드 리팩토링 버전 ; 전차 한 개만 찾고 바로 종료하기. public static void found() { for (int
+	 * i = 0; i < H; i++) { for (int j = 0; j < W; j++) { char c = map[i][j]; // 각
+	 * 칸에 문자열. if (c == '^' || c == 'v' || c == '<' || c == '>') { dx = i ; dy = j;
+	 * dir = c; return; } } } }
+	 */
+
+public static void shoot() {
+		switch(dir) {
+		
+		case '^' : 
+			for(int i=1 ; dx-i >= 0 ; i++) { // 경계를 벗어난 순간 종료.
+				switch(map[dx-i][dy] ) {
+				case '*' :
+					map[dx-i][dy] = '.';				
+					return;
+				case'#' :
+					return;
+				}
+			}
+			break;
+		
+		
+		case 'v' : 
+			for(int i=1 ; dx + i < H ; i++) {
+				switch(map[dx+i][dy]) {
+				case '*' :
+					map[dx+i][dy] = '.';
+					return;
+				case '#' : 
+					return;
+				}
+			}
+			break;
+		
+			
+		case '>' : 
+			for(int i=1 ;dy+i < W ; i++){
+				switch(map[dx][dy+i]){
+					case '*' :
+						map[dx][dy+i] = '.';
+						return;
+						
+					case '#' :	
+						return;
+				}
+			}
+			break;
+			
+			
+		case '<' : 
+			for(int i=1 ; dy - i >=0  ; i++) {
+				switch (map[dx][dy-i]) {
+				case '*' :
+					map[dx][dy-i] = '.';
+					return;
+				case '#' :
+					return;
+			}
+				
+			}
+			break;
+}
+}
+}
+		
+		
+		
+/* shoot 리팩토링 코드
+ * public static void shoot() {
+    int dr = 0, dc = 0; // dr: 위, 아래 방향 이동 거리  dy : 좌우 방향 이동 거리 
+    if (dir == '^') dr = -1; //위로 한 칸
+    else if (dir == 'v') dr = 1; // 아래로 한칸
+    else if (dir == '<') dc = -1;// 왼쪽으로 한칸
+    else if (dir == '>') dc = 1; //오른쪽으로 한칸
+
+    int r = dx + dr, c = dy + dc; // dx, dy 기존 좌표. + 각 좌표 이동 거리 => 새로운 좌표. r,c에 넣어 경계검사
+    while (in(r, c)) { //경계검사 통과 못 하면  기존 상태 유지.
+        if (map[r][c] == '*') { map[r][c] = '.'; return; } //* -> . 종료
+        if (map[r][c] == '#') { return; } // 벽 만나면 종료
+        r += dr; c += dc; // 벽을 만나거나 map 끝날 때까지  포탄이 걔속 이동하니 벽 만날 떄까지 한 캄씩 확인. 포탄이 벗어난 순간 조건 false 되면서 반목 종료.
     }
 }
-                    
-        
-  
-    반응형
-    
-    
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  
-
-        
-
-
-                    
-  window.ReactionButtonType = 'reaction';
-window.ReactionApiUrl = '//develop247.tistory.com/reaction';
-window.ReactionReqBody = {
-    entryId: 449
-}
-
-출처: https://develop247.tistory.com/449 [ImJay:티스토리]
+ */
