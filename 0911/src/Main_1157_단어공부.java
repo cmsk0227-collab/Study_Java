@@ -13,21 +13,19 @@ public class Main_1157_단어공부{
 		}
 		
 		int max= 0;
-		int cnt = 1;
+		int cnt = 0;
 		int idx = -1;
 		for(int i = 0; i < alphabet.length ; i++) {//가장 많이 중복된 수 찾기
 			if(alphabet[i] > max) {
 				max = alphabet[i];
 				idx = i;
+				cnt = 0; //새 최댓값이 등장했으니 동률 카운트 리셋
 			}
 			else if(alphabet[i] == max && max != 0) cnt ++;
 		}
 		
-		char res = (char) (idx+'A');
 		
-		if(cnt == 0) System.out.println(res);
-		else System.out.println("?");
-		
+		System.out.println(cnt == 0 ? (char)(idx+'A') : "?");
 		
 	sc.close();}
 
