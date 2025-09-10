@@ -1,0 +1,72 @@
+# =========================
+# Eclipse / STS
+# =========================
+.classpath
+.project
+.settings/
+.springBeans
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# =========================
+# VSCode
+# =========================
+.vscode/
+.history/
+*.code-workspace
+
+# =========================
+# Build output
+# =========================
+bin/
+build/
+out/
+target/
+
+# =========================
+# Logs & temp files
+# =========================
+*.log
+*.tmp
+*.swp
+*.bak
+*.DS_Store
+Thumbs.db
+
+# =========================
+# Java specific
+# =========================
+*.class
+hs_err_pid*
+replay_pid*
+
+# =========================
+# OS-specific
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# =========================
+# Gradle / Maven
+# =========================
+.gradle/
+!gradle-wrapper.jar
+.mvn/
+.settings/
+dependency-reduced-pom.xml
+
+# =========================
+# Node / NPM (혹시 프론트 포함될 경우)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
