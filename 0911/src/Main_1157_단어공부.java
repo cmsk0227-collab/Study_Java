@@ -19,14 +19,14 @@ public class Main_1157_단어공부{
 			if(alphabet[i] > max) {
 				max = alphabet[i];
 				idx = i;
-				cnt = 0; //새 최댓값이 등장했으니 동률 카운트 리셋
+				cnt = 0; //최대값이 갱신되었으니 기존의 동률 카운트는 리셋
 			}
 			else if(alphabet[i] == max && max != 0) cnt ++;
 		}
 		
 		
 		System.out.println(cnt == 0 ? (char)(idx+'A') : "?");
-		
+		System.out.println();
 	sc.close();}
 
 }
