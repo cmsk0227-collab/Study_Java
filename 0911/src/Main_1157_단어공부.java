@@ -24,7 +24,7 @@ public class Main_1157_단어공부{
 			else if(alphabet[i] == max && max != 0) cnt ++;
 		}
 		
-		
+//원격으로 깃 한번 저장하기 힘들구나
 		System.out.println(cnt == 0 ? (char)(idx+'A') : "?");
 	sc.close();}
 
