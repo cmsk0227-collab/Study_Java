@@ -26,6 +26,7 @@ public class Main_1157_단어공부{
 		
 		
 		System.out.println(cnt == 0 ? (char)(idx+'A') : "?");
+		System.out.println();
 		
 	sc.close();}
 
