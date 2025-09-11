@@ -5,6 +5,7 @@ public class Solution_5789_현주의_상자바꾸기 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		//표준입력(콘솔)을 위한 입력스트림. 
 		StringBuilder sb = new StringBuilder();
 		
 		int T = sc.nextInt();

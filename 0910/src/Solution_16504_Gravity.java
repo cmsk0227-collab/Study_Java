@@ -21,22 +21,22 @@ public class Solution_16504_Gravity {
 
         int T = sc.nextInt(); // 테스트 케이스 개수 입력
 
-        for (int t = 1; t <= T; t++) { // T번 반복
-            int width = sc.nextInt();      // 블록 개수 입력
-            int[] block = new int[width];  // 블록 높이 배열
+        for (int t = 1; t <= T; t++) { // T번 반복, #1 7 등의 형태로 테케 번호도 출력이 되어 t = 1 부터시작
+            int width = sc.nextInt();      // 방의 가로 길이
+            int[] block = new int[width];  // 블록 높이 배열들을 저장
 
-            for (int i = 0; i < width; i++) {//width번 반복
+            for (int i = 0; i < width; i++) {//width번 반복. 배열 순회
                 block[i] = sc.nextInt();   // 각 블록 높이 입력
             }
 
-            int max_gap = 0; // 이번 케이스의 최대 낙차 초기화
+            int max_gap = 0; // 이번 케이스의 최대 낙차 초기화. 테케 마다 초기화되야함. 
 
             // 각 블록별로 오른쪽 비교
             for (int i = 0; i < width; i++) {//width 반복
                 int same_h = 0;           // i번째 블록보다 크거나 같은 블록 수
                 int idx = width - 1 - i;  //i의 오른쪽 칸(공간) 개수
 
-                for (int j = i + 1; j < width; j++) {//현재 블록(i) 다음 블록(i+1)부터 끝까지 조회
+                for (int j = i + 1; j < width; j++) {//현재 블록(i) 다음 블록(i+1)부터 끝(n-1)까지 조회
                     if (block[i] <= block[j]) {//i번째 블록보다 크거나 같다면
                         same_h++;//+1씩 증가
                     }
