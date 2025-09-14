@@ -23,7 +23,7 @@ public class Main_1107_리모컨 {
             int cand = Integer.toString(target).length(); //채널 번호의 배열  길이 = 버튼 누른 횟수 
             minClick = Math.min(cand, minClick);//플마 이동, 숫자 이동 중 클릭이 적은 수 => 최소 이동 클릭수
             System.out.print(minClick); //결과 츌력
-            return;// 코드 실행 완전 종료
+            return;// 코드 실행 완전 종료.
         }
         
         //고장난 버튼이 있다면 -> 숫자버튼 + (+/-) 혼합 이동
