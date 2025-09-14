@@ -6,6 +6,7 @@
 .project
 .settings/
 .springBeans
+/.metadata/
 
 # =========================
 # IntelliJ IDEA
