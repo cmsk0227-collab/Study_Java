@@ -4,11 +4,11 @@ import java.io.*;
 
 /*
  * 생성자 활용 및 람다식을 이용한 오름차순 정렬
- * 그래프를 인접리스토 표현하기
+ * 그래프를 인접리스트로 표현하기
  */
 
 public class Main_1916 {
-	static int n, m, start, end ;
+	static int start, end ;
 	static int[] dist;
 	static ArrayList<ArrayList<Node>> graph;
 	
@@ -16,8 +16,8 @@ public class Main_1916 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
-		n = Integer.parseInt(br.readLine()); //노드
-		m = Integer.parseInt(br.readLine()); //간선
+		int n = Integer.parseInt(br.readLine()); //노드
+		int m = Integer.parseInt(br.readLine()); //간선
 		
 		//이 부분 구현 x -> 인접리스트 구현 연습 필요
 		 graph = new ArrayList<>();
@@ -40,24 +40,26 @@ public class Main_1916 {
 		
 		//로직
 		dist = new int[n+1]; // 시작점에서 i까지의 최단거리
-		Arrays.fill(dist, Integer.MAX_VALUE);
+		Arrays.fill(dist, Integer.MAX_VALUE);//MAX_VALUE보다 10^6 이나 10^7을 써야 오버플로우 안남.
 		daji();
 		System.out.println(dist[end]);
 		
 		
 	}
 	
-	//이해 부족
+	//다익스트라 논리 이해 부족
 	private static void daji(){
 		PriorityQueue<Node> pq = new PriorityQueue<>();//큐에 현재 담아긴 자료 중 가장 작은 값을 반환.
 		
 		pq.add(new Node(start, 0));//시작점
-		dist[start] = 0;
+		dist[start] = 0;//이게 안되기도 한다구??
 		
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();//가중치 기준으로 가장 작은 값을 꺼냄.
 			int v = now.v;
 			int w = now.w;
+			
+			if(dist[v] < w) continue;//이거 없으면 시간 초과남.
 			
 			for(Node next : graph.get(v)) {
 				if(dist[next.v] > dist[v] + next.w) {
