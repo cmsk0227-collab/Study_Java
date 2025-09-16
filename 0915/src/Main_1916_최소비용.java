@@ -67,7 +67,7 @@ public class Main_1916_최소비용{
 			
 			if(dist[now_v] < now_cost) continue; 
 			
-			for(Node next : graph[now_v]) {//인접노드 조회
+			for(Node next : graph[now_v]) {//인접노드 조회 왜 안돼
 				if(dist[next.v] > dist[])
 				
 			}
