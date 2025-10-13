@@ -4,7 +4,7 @@ import java.io.*;
 public class Main2563 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int[][] papper = new int[100][100];
+		int[][] paper = new int[100][100];
 	
 		int cnt = Integer.parseInt(br.readLine());
 		
@@ -15,7 +15,7 @@ public class Main2563 {
 			
 			for(int i = 0 ; i < 10; i++) {
 				for(int j = 0; j < 10 ; j++) {
-					papper[r+i][c+j] = 1;
+					paper[r+i][c+j] = 1;
 				}
 			}
 			cnt--;
@@ -25,7 +25,7 @@ public class Main2563 {
 		
 		for(int i = 0 ; i < 100 ; i++) {
 			for(int j = 0 ; j < 100 ; j++) {
-				sum += papper[i][j];
+				sum += paper[i][j];
 			}
 		}
 		
